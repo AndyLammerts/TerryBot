@@ -2,12 +2,14 @@ require('dotenv').config()
 
 const fs = require('node:fs');
 const path = require('node:path');
-
+var mysql = require('mysql');
 const express = require("express");
-const app = express()
-
 const Discord = require("discord.js");
 const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+
+
+const app = express()
+
 const client = new Discord.Client({ 
     intents: [
         GatewayIntentBits.DirectMessages,
@@ -32,6 +34,8 @@ for (const file of commandFiles) {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
+
+
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
@@ -42,6 +46,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 
+  
 	try {
 		await command.execute(interaction);
 	} catch (error) {
